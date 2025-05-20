@@ -51,6 +51,13 @@ public class DashScopeChatProperties extends DashScopeParentProperties {
 	 */
 	private boolean enabled = true;
 
+//	@NestedConfigurationProperty用于标识一个 @ConfigurationProperties 类中的字段，该字段本身又是一个配置属性类。
+//		这种设计允许在配置属性类中嵌套其他配置属性类，使得配置结构更复杂、更有层次性。
+//@NestedConfigurationProperty 的作用
+//	支持复杂的配置结构：当一个配置属性类需要包含其他配置属性类时，@NestedConfigurationProperty 可以帮助自动识别和绑定这种嵌套关系。
+//	增强配置的可读性和组织性：通过嵌套配置，可以更直观地表示配置之间的层次关系和组织结构，使得配置文件更易于理解和维护。
+//	自动属性绑定：Spring Boot 会自动将外部配置中的嵌套属性绑定到对应的嵌套配置类上，简化了配置管理过程。
+//	spring.ai.dashscope.chat.options.model=qwen-plus  可注入到DashScopeChatOptions内的model
 	@NestedConfigurationProperty
 	private DashScopeChatOptions options = DashScopeChatOptions.builder()
 		.withModel(DEFAULT_DEPLOYMENT_NAME)
