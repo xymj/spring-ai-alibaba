@@ -13,17 +13,18 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.alibaba.cloud.ai</groupId>
     <artifactId>spring-ai-alibaba-bom</artifactId>
-    <version>1.0.0-M8.1-SNAPSHOT</version>
+    <version>1.0.0.3-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
-    <name>spring-ai-alibaba-bom</name>
+    <name>Spring AI Alibaba Bom</name>
     <url>https://github.com/alibaba/spring-ai-alibaba</url>
     <description>Bill of Materials POM (BOM) for the Spring AI Alibaba modules</description>
 
@@ -54,21 +55,6 @@
         </license>
     </licenses>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>spring-snapshots</id>
-            <url>https://repo.spring.io/libs-snapshot-local</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </snapshotRepository>
-        <repository>
-            <id>repo.spring.io</id>
-            <name>Spring Release Repository</name>
-            <url>https://repo.spring.io/libs-release-local</url>
-        </repository>
-    </distributionManagement>
-
     <developers>
         <developer>
             <id>chickenlj</id>
@@ -96,7 +82,6 @@
         <maven-project-info-reports-plugin.version>3.4.5</maven-project-info-reports-plugin.version>
         <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
         <spring-javaformat-maven-plugin.version>0.0.39</spring-javaformat-maven-plugin.version>
-        <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -112,7 +97,92 @@
             <!-- Spring AI Alibaba Starter -->
             <dependency>
                 <groupId>com.alibaba.cloud.ai</groupId>
-                <artifactId>spring-ai-alibaba-starter</artifactId>
+                <artifactId>spring-ai-alibaba-starter-dashscope</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-starter-arms-observation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-starter-memory</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-starter-nacos2-mcp-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-starter-nacos2-mcp-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-starter-nacos-mcp-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-starter-nacos-mcp-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-starter-nacos-prompt</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-starter-nl2sql</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Spring AI Alibaba Autoconfiguration  -->
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-autoconfigure-dashscope</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-autoconfigure-arms-observation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-autoconfigure-memory</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-autoconfigure-nacos2-mcp-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-autoconfigure-nacos2-mcp-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-autoconfigure-nacos-prompt</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -120,11 +190,6 @@
             <dependency>
                 <groupId>com.alibaba.cloud.ai</groupId>
                 <artifactId>spring-ai-alibaba-graph-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.cloud.ai</groupId>
-                <artifactId>spring-ai-alibaba-graph-studio</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -138,7 +203,7 @@
             <!-- Spring AI Alibaba MCP Nacos -->
             <dependency>
                 <groupId>com.alibaba.cloud.ai</groupId>
-                <artifactId>spring-ai-alibaba-mcp-nacos</artifactId>
+                <artifactId>spring-ai-alibaba-mcp-nacos2</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -165,6 +230,12 @@
 
             <dependency>
                 <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-starter-tool-calling-aliyunaisearch</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
                 <artifactId>spring-ai-alibaba-starter-tool-calling-baidumap</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -183,13 +254,19 @@
 
             <dependency>
                 <groupId>com.alibaba.cloud.ai</groupId>
-                <artifactId>spring-ai-alibaba-starter-tool-calling-bingsearch</artifactId>
+                <artifactId>spring-ai-alibaba-starter-tool-calling-bravesearch</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.alibaba.cloud.ai</groupId>
-                <artifactId>spring-ai-alibaba-starter-tool-calling-crawler</artifactId>
+                <artifactId>spring-ai-alibaba-starter-tool-calling-jinacrawler</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-starter-tool-calling-firecrawl</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -295,6 +372,18 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-starter-tool-calling-tavilysearch</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-starter-tool-calling-searches</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- Spring AI Alibaba Vector Stores -->
             <dependency>
                 <groupId>com.alibaba.cloud.ai</groupId>
@@ -330,6 +419,12 @@
             <dependency>
                 <groupId>com.alibaba.cloud.ai</groupId>
                 <artifactId>spring-ai-alibaba-starter-memory-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-starter-memory-elasticsearch</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -606,6 +701,25 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>2.44.5</version>
+                <configuration>
+                    <java>
+                        <removeUnusedImports/>
+                    </java>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>spotless-apply</id>
+                        <goals>
+                            <goal>apply</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <version>${maven-deploy-plugin.version}</version>
@@ -687,7 +801,9 @@
                             <excludePackageNames>
                                 org.springframework.ai.sample.*,org.springframework.ai.testcontainers.service.connection.*
                             </excludePackageNames>
-                            <overview>${project.basedir}/spring-ai-docs/src/main/javadoc/overview.html</overview>
+                            <overview>
+                                ${project.basedir}/spring-ai-docs/src/main/javadoc/overview.html
+                            </overview>
                             <detectJavaApiLink>false</detectJavaApiLink>
                             <doclint>none</doclint>
                             <!--							<doclint>all,-missing</doclint>-->
@@ -764,6 +880,10 @@
         </profile>
         <profile>
             <id>release</id>
+            <properties>
+                <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
+                <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -795,7 +915,6 @@
                             </execution>
                         </executions>
                     </plugin>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
@@ -809,7 +928,6 @@
                             </execution>
                         </executions>
                     </plugin>
-
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>flatten-maven-plugin</artifactId>
@@ -837,7 +955,6 @@
                     </plugin>
                 </plugins>
             </build>
-
             <distributionManagement>
                 <snapshotRepository>
                     <id>sonatype-nexus-snapshots</id>

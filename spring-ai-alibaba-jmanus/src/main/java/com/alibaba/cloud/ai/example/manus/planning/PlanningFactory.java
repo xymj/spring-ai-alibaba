@@ -30,14 +30,15 @@ import com.alibaba.cloud.ai.example.manus.planning.executor.PlanExecutor;
 import com.alibaba.cloud.ai.example.manus.planning.finalizer.PlanFinalizer;
 import com.alibaba.cloud.ai.example.manus.recorder.PlanExecutionRecorder;
 import com.alibaba.cloud.ai.example.manus.tool.DocLoaderTool;
+import com.alibaba.cloud.ai.example.manus.tool.FormInputTool;
 import com.alibaba.cloud.ai.example.manus.tool.PlanningTool;
 import com.alibaba.cloud.ai.example.manus.tool.TerminateTool;
 import com.alibaba.cloud.ai.example.manus.tool.ToolCallBiFunctionDef;
 import com.alibaba.cloud.ai.example.manus.tool.bash.Bash;
 import com.alibaba.cloud.ai.example.manus.tool.browser.BrowserUseTool;
 import com.alibaba.cloud.ai.example.manus.tool.browser.ChromeDriverService;
-import com.alibaba.cloud.ai.example.manus.tool.code.CodeUtils;
 import com.alibaba.cloud.ai.example.manus.tool.code.PythonExecute;
+import com.alibaba.cloud.ai.example.manus.tool.code.ToolExecuteResult;
 import com.alibaba.cloud.ai.example.manus.tool.searchAPI.GoogleSearch;
 import com.alibaba.cloud.ai.example.manus.tool.textOperator.TextFileOperator;
 import com.alibaba.cloud.ai.example.manus.tool.textOperator.TextFileService;
@@ -64,7 +65,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -87,8 +87,6 @@ public class PlanningFactory {
 	private AgentService agentService;
 
 	private final McpService mcpService;
-
-	private ConcurrentHashMap<String, PlanningCoordinator> flowMap = new ConcurrentHashMap<>();
 
 	@Autowired
 	@Lazy
@@ -113,17 +111,6 @@ public class PlanningFactory {
 		this.mcpService = mcpService;
 	}
 
-	// public PlanningCoordinator getOrCreatePlanningFlow(String planId) {
-	// PlanningCoordinator flow = flowMap.computeIfAbsent(planId, key -> {
-	// return createPlanningCoordinator(planId);
-	// });
-	// return flow;
-	// }
-
-	// public boolean removePlanningFlow(String planId) {
-	// return flowMap.remove(planId) != null;
-	// }
-
 	public PlanningCoordinator createPlanningCoordinator(String planId) {
 
 		// Add all dynamic agents from the database
@@ -132,7 +119,7 @@ public class PlanningFactory {
 		PlanningTool planningTool = new PlanningTool();
 
 		PlanCreator planCreator = new PlanCreator(agentEntities, llmService, planningTool, recorder);
-		PlanExecutor planExecutor = new PlanExecutor(agentEntities, recorder, agentService);
+		PlanExecutor planExecutor = new PlanExecutor(agentEntities, recorder, agentService, llmService);
 		PlanFinalizer planFinalizer = new PlanFinalizer(llmService, recorder);
 
 		PlanningCoordinator planningCoordinator = new PlanningCoordinator(planCreator, planExecutor, planFinalizer);
@@ -168,12 +155,14 @@ public class PlanningFactory {
 		// 添加所有工具定义
 		toolDefinitions.add(BrowserUseTool.getInstance(chromeDriverService));
 		toolDefinitions.add(new TerminateTool(planId));
-		toolDefinitions.add(new Bash(CodeUtils.WORKING_DIR));
+		toolDefinitions.add(new Bash(manusProperties));
 		toolDefinitions.add(new DocLoaderTool());
-		toolDefinitions.add(new TextFileOperator(CodeUtils.WORKING_DIR, textFileService));
+		toolDefinitions.add(new TextFileOperator(textFileService));
 		toolDefinitions.add(new GoogleSearch());
 		toolDefinitions.add(new PythonExecute());
-		List<McpServiceEntity> functionCallbacks = mcpService.getFunctionCallbacks();
+		toolDefinitions.add(new FormInputTool());
+
+		List<McpServiceEntity> functionCallbacks = mcpService.getFunctionCallbacks(planId);
 		for (McpServiceEntity toolCallback : functionCallbacks) {
 			String serviceGroup = toolCallback.getServiceGroup();
 			ToolCallback[] tCallbacks = toolCallback.getAsyncMcpToolCallbackProvider().getToolCallbacks();
@@ -185,7 +174,7 @@ public class PlanningFactory {
 
 		// 为每个工具创建 FunctionToolCallback
 		for (ToolCallBiFunctionDef toolDefinition : toolDefinitions) {
-			FunctionToolCallback functionToolcallback = FunctionToolCallback
+			FunctionToolCallback<?, ToolExecuteResult> functionToolcallback = FunctionToolCallback
 				.builder(toolDefinition.getName(), toolDefinition)
 				.description(toolDefinition.getDescription())
 				.inputSchema(toolDefinition.getParameters())
