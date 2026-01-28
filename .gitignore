@@ -53,3 +53,19 @@ spring-ai-alibaba-jmanus/ui-vue3/pnpm-lock.yaml
 # checkstyle report files
 **/checkstyle-report.xml
 **/logs/*
+
+# SpecStory files - ignore entire .specstory directory
+.specstory/
+.specstory/.what-is-this.md
+.specstory/history/*
+
+# MCP configuration files
+modified_mcp_config.json
+.cursorindexingignore
+
+# ignore code copilot local index
+.idea/LocalCodeIndex/
+
+**/spans.json
+
+.checkstyle

@@ -1,14 +1,79 @@
-# spring-ai-alibaba-studio 后端
+# Agent Chat UI
 
-## 本地运行
+Agent Chat UI provides a visualized way for developers to chat with any Spring AI Alibaba developed Agents.
 
-spring-ai-alibaba-studio 后端是嵌入式server，需外部SpringBoot项目引入该依赖后运行。
+## Quick Experience
 
-具体可参考`spring-ai-alibaba-examples/cli-debug-example` 示例，配置好`spring.ai.dashscope.api-key=xxxx`
-后运行`CliDebugExampleApplication.java`即可。
+> Go to the [examples](../examples) directory to experience real world usage.
 
-## 生成openapi文档
+1. Start backend agent
 
-1. 运行项目
-2. 运行`mvn verify`
-3. openapi.yaml生成在`resources/openapi.yaml`
+Go to the `src/test/java` directory, start the backend agent by running `StudioApplication`
+
+2. Then, start the chat ui
+
+```shell
+npm install
+npm run dev
+```
+
+3. Chat with agent
+
+Visit `http://localhost:3000`.
+
+<img src="../docs/imgs/agent-chat-ui.jpg" alt="architecture" style="max-width: 740px; height: 508px" />
+
+### Embedded mode
+
+The ui can work in a embedded mode with any of your Spring Boot applications.
+
+Just add the following dependency to your agent project:
+
+```xml
+<dependency>
+	<groupId>com.alibaba.cloud.ai</groupId>
+	<artifactId>spring-ai-alibaba-studio</artifactId>
+	<version>1.1.0.0</version>
+</dependency>
+```
+
+Run your agent, visit `http:localhost:{your-port}/chatui/index.html`, and now you can chat with you agent.
+
+### Standalone mode
+
+First, clone the repository,
+
+```bash
+git clone https://github.com/alibaba/spring-ai-alibaba.git
+
+cd spring-ai-alibaba/spring-ai-alibaba-studio/agent-chat-ui
+```
+
+Install dependencies:
+
+```bash
+pnpm install
+# or
+# npm install
+```
+
+Run the app:
+
+```bash
+pnpm dev
+# or
+# npm run dev
+```
+
+The app will be available at `http://localhost:3000`.
+
+By default, the UI connects to your backend Agent at `http://localhost:8080`, you can change the address at `.env.development` file.
+
+```properties
+# .env.development
+NEXT_PUBLIC_API_URL=http://localhost:8080
+# The agent to call in the backend application, backend application should register agent as required, check examples for how to configure.
+NEXT_PUBLIC_APP_NAME=research_agent
+NEXT_PUBLIC_USER_ID=user-001
+```
+
